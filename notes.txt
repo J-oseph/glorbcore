@@ -1,0 +1,47 @@
+
+
+instruction width = 16
+data width = 16
+registers = 8
+
+x0: zero
+x1: return address
+x2: stack pointer
+x3: global pointer
+x4: t0
+x5: t1
+x6: t2
+x7: t3
+
+
+R-R instructions:
+15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0
+xxxxx --rs2--- --rs1- -rd-- --op- 0 0
+
+0: add
+1: sub
+2: and
+3: or
+4: xor
+5: sll
+6: srl
+7: sra??
+
+
+
+R-I instructions:
+15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0
+-----imm--------- -rs1- -rd-- -op 0 1
+
+0: addi
+1: andi
+2: ori
+3: xori
+
+
+MEM instructions:
+15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0
+------imm/rs1------------ -rd-- o 1 0 
+
+0: load
+1: store
