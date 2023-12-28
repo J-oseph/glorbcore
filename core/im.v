@@ -14,7 +14,7 @@ assign instruction = mem[address];
 
 
 initial begin
-    $readmemh("programs/simple.txt", mem);
+    $readmemb("programs/simple.txt", mem);
 end
 
 

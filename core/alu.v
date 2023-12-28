@@ -3,11 +3,13 @@
 
 module Alu #(
     parameter DW = 8,
+    parameter IMW = 4,
     parameter IW = 8
 )(
     input wire [IW-1:0] instruction,
     input wire [DW-1:0] rs1_data,
     input wire [DW-1:0] rd_data,
+    input wire [IMW-1:0] pc,
     output reg [DW-1:0] out
 );
 wire        op      = instruction[0];
@@ -31,10 +33,11 @@ always @(*) begin
                     default:    out = 8'bX; 
                 endcase
             end
-        `OP_R:
+        `OP_B:
             begin
                 case (b_funct)
-                    `B_BEQ:     out = rs1_data == rd_data ? b_imm: 1;
+                    //`B_BEQ:     out = rs1_data == rd_data ? b_imm: 1;
+                    `B_BEQ:     out = pc + b_imm;
                     `B_BLT:     out = rs1_data < rd_data ? b_imm: 1;
                     default:    out = 8'bX;
                 endcase

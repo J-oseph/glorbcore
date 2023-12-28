@@ -11,7 +11,7 @@ module Core (
     input wire start
 );
 
-wire rf_we;
+wire rf_we, branch_taken;
 wire [4-1:0] pc_in, pc_out;
 wire [8-1:0] instruction, wr_data, rs1_data, rd_data;
 wire [2-1:0] rs1_address, rd_address;
@@ -19,8 +19,8 @@ wire [2-1:0] rs1_address, rd_address;
 Pc pc(
     .clk(clk),
     .start(start),
-    .branch_taken(1'b0),
-    .pc_in(pc_out),
+    .branch_taken(branch_taken),
+    .pc_in(rd_data[4-1:0]),
     .pc_out(pc_out)
 );
 
@@ -32,6 +32,7 @@ Im im(
 Id id(
     .instruction(instruction),
     .rf_we(rf_we),
+    .branch_taken(branch_taken),
     .rs1_address(rs1_address),
     .rd_address(rd_address)
 );
@@ -51,6 +52,7 @@ Alu alu(
     .instruction(instruction),
     .rs1_data(rs1_data),
     .rd_data(rd_data),
+    .pc(pc_out),
     .out(wr_data)
 );
 
