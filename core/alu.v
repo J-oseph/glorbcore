@@ -17,7 +17,7 @@ module Alu #(
 )(
     input wire [IW-1:0] instruction,
     input wire [DW-1:0] rs1_data,
-    input wire [DW-1:0] rs2_data,
+    input wire [DW-1:0] rd_data,
     output reg [DW-1:0] out
 );
 
@@ -35,22 +35,22 @@ always @(*) begin
         `OP_R:
             begin
                 case (r_funct)
-                    `R_ADD:     out = r_rs1 + r_rd;
-                    `R_AND:     out = r_rs1 & r_rd;
-                    `R_OR:      out = r_rs1 | r_rd;
-                    `R_XOR:     out = r_rs1 ^ r_rd;
+                    `R_ADD:     out = rs1_data + rd_data;
+                    `R_AND:     out = rs1_data & rd_data;
+                    `R_OR:      out = rs1_data | rd_data;
+                    `R_XOR:     out = rs1_data ^ rd_data;
                     default:    out = 8'bX; 
                 endcase
             end
         `OP_R:
             begin
                 case (b_funct)
-                    `B_BEQ:     out = r_rs1 == r_rd ? b_imm: 1;
-                    `B_BLT:     out = r_rs1 < r_rd ? b_imm: 1;
+                    `B_BEQ:     out = rs1_data == rd_data ? b_imm: 1;
+                    `B_BLT:     out = rs1_data < rd_data ? b_imm: 1;
                     default:    out = 8'bX;
                 endcase
             end
-
+        default:    out = 8'bX;
     endcase
 end
 
