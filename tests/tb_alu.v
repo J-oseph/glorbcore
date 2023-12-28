@@ -37,15 +37,47 @@ initial begin
     rs1_data = 8'h11; rd_data = 8'h22; expected_out = 8'h33;
     #10; checkOutput;
 
+    // AND
+    instruction = {`REG1, `REG0, `R_AND, 1'b0, `OP_R};
+    rs1_data = 8'h00; rd_data = 8'h00; expected_out = 8'h00;
+    #10; checkOutput;
+    rs1_data = 8'hFF; rd_data = 8'h00; expected_out = 8'h00;
+    #10; checkOutput;
+    rs1_data = 8'h00; rd_data = 8'hFF; expected_out = 8'h00;
+    #10; checkOutput;
+    rs1_data = 8'hFF; rd_data = 8'hAA; expected_out = 8'hAA;
+    #10; checkOutput;
+    rs1_data = 8'hA8; rd_data = 8'h89; expected_out = 8'h88;
+    #10; checkOutput;
+
+    // OR
+    instruction = {`REG1, `REG0, `R_XOR, 1'b0, `OP_R};
+    rs1_data = 8'h00; rd_data = 8'h00; expected_out = 8'h00;
+    #10; checkOutput;
+    rs1_data = 8'hFF; rd_data = 8'h00; expected_out = 8'hFF;
+    #10; checkOutput;
+    rs1_data = 8'h00; rd_data = 8'hFF; expected_out = 8'hFF;
+    #10; checkOutput;
+    rs1_data = 8'hFF; rd_data = 8'hAA; expected_out = 8'hFF;
+    #10; checkOutput;
+    rs1_data = 8'hA8; rd_data = 8'h89; expected_out = 8'hA9;
+    #10; checkOutput;
 
     $display("Finished tb_alu."); $finish;
 end
 
 
 task checkOutput;
-    if (out != expected_out) begin
-        $display("FAILED AT TIME %0tps. [%d] + [%d] = [%d] (expected [%d])", $time, rs1_data, rd_data, out, expected_out);
-        $finish;
+    if (out !== expected_out) begin
+        $display(
+            "FAILED AT TIME %0tps. %h [%d]   %h [%d] = %h [%d] (expected %h [%d])",
+            $time,
+            rs1_data, rs1_data,
+            rd_data, rd_data,
+            out, out,
+            expected_out, expected_out
+        );
+        //$finish;
     end
 endtask
 
