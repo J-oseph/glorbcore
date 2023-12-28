@@ -30,6 +30,7 @@ initial begin
     testADD;
     testAND;
     testOR;
+    testXOR;
 
     $display("Finished tb_alu."); $finish;
 end
@@ -89,6 +90,26 @@ task automatic testOR;
             rs1_data = 8'hFF; rd_data = 8'hAA; expected_out = 8'hFF;
             #1; checkOutput;
             rs1_data = 8'hA8; rd_data = 8'h89; expected_out = 8'hA9;
+            #1; checkOutput;
+        end
+    end
+endtask
+
+
+task automatic testXOR;
+    for (i=0; i<1; i++) begin
+        for (j=0; j<1; j++) begin
+            instruction = {i[0], j[0], `R_XOR, 1'b0, `OP_R};
+
+            rs1_data = 8'h00; rd_data = 8'h00; expected_out = 8'h00;
+            #1; checkOutput;
+            rs1_data = 8'hFF; rd_data = 8'hFF; expected_out = 8'h00;
+            #1; checkOutput;
+            rs1_data = 8'hFF; rd_data = 8'h00; expected_out = 8'hFF;
+            #1; checkOutput;
+            rs1_data = 8'hFF; rd_data = 8'hAA; expected_out = 8'h55;
+            #1; checkOutput;
+            rs1_data = 8'hA8; rd_data = 8'h89; expected_out = 8'h21;
             #1; checkOutput;
         end
     end
