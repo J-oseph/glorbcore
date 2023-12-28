@@ -10,15 +10,14 @@ module Alu #(
     input wire [DW-1:0] rd_data,
     output reg [DW-1:0] out
 );
+wire        op      = instruction[0];
 
-assign op       = instruction[0];
+wire [1:0]  r_rs1   = instruction[7:6];
+wire [1:0]  r_rd    = instruction[5:4];
+wire [1:0]  r_funct = instruction[3:2];
 
-assign r_rs1    = instruction[7:6];
-assign r_rd     = instruction[5:4];
-assign r_funct  = instruction[3:2];
-
-assign b_imm    = instruction[7:2];
-assign b_funct  = instruction[1];
+wire [4:0]  b_imm   = instruction[7:2];
+wire        b_funct = instruction[1];
 
 always @(*) begin
     case (op)
