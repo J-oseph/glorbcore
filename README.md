@@ -21,7 +21,7 @@ Very basic RISC ISA core
         0: add
         1: and
         2: or
-        3: or
+        3: xor
 
 ### Branch Instructions:
     Conditionally adds a number (imm) to the program counter
