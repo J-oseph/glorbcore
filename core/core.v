@@ -20,7 +20,7 @@ Pc pc(
     .clk(clk),
     .start(start),
     .branch_taken(branch_taken),
-    .pc_in(rd_data[4-1:0]),
+    .pc_in(wr_data[4-1:0]),
     .pc_out(pc_out)
 );
 

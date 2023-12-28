@@ -7,19 +7,19 @@ module Pc #(
     input wire start,
     input wire branch_taken,
     input wire [IMW-1:0] pc_in,
-    output wire [IMW-1:0] pc_out
+    output reg [IMW-1:0] pc_out
 );
 
-reg [IMW-1:0] next_pc;
+wire [IMW-1:0] next_pc = pc_out + 1;
 
-assign pc_out = branch_taken ? pc_in: next_pc;
+wire [IMW-1:0] pc_out_w = branch_taken ? pc_in: next_pc;
 
 always @(posedge clk) begin
-    next_pc <= pc_out + 1;
+    pc_out <= pc_out_w;
 end
 
 always @(posedge start) begin
-    next_pc <= {IMW{1'b0}};
+    pc_out <= {IMW{1'b0}};
 end
 
 endmodule
