@@ -3,7 +3,7 @@
 `include "core/definitions.v"
 `include "core/core.v"
 
-module prog_Simple; 
+module prog_Fibb; 
 
 parameter DW = 8;
 parameter IW = 8;
@@ -14,22 +14,22 @@ integer i,j = 0;
 reg clk, start;
 
 Core #(
-    .filename("programs/simple.txt")
+    .filename("programs/fibb.txt")
 ) core(
     .clk(clk),
     .start(start)
 );
 
 initial begin
-    $dumpfile("temp/simple.vcd");
-    $dumpvars(0, prog_Simple);
+    $dumpfile("temp/fibb.vcd");
+    $dumpvars(0, prog_Fibb);
 
     clk = 1'b0;
     start = 1'b0;
     #1 start = 1'b1;
     #4;
 
-    #1000 $display("Finished simple.txt."); $finish;
+    #1000 $display("Finished fibb.txt."); $finish;
 end
 
 

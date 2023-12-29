@@ -6,7 +6,9 @@
 `include "core/alu.v"
 
 
-module Core (
+module Core #(
+    parameter filename = "programs/simple.txt"
+)(
     input wire clk,
     input wire start
 );
@@ -24,7 +26,8 @@ Pc pc(
     .pc_out(pc_out)
 );
 
-Im im(
+Im #(.filename(filename) 
+) im(
     .address(pc_out),
     .instruction(instruction)
 );

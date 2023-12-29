@@ -1,7 +1,8 @@
 
 module Im #(
     parameter IW = 8,
-    parameter IMW = 4 
+    parameter IMW = 4,
+    parameter filename = "programs/simple.txt"
 )(
     input wire [IMW-1:0] address,
     output wire [IW-1:0] instruction
@@ -14,7 +15,7 @@ assign instruction = mem[address];
 
 
 initial begin
-    $readmemb("programs/simple.txt", mem);
+    $readmemb(filename, mem);
 end
 
 
