@@ -8,7 +8,7 @@ module tb_Alu;
 parameter DW = 8;
 parameter IW = 8;
 
-integer i,j = 0;
+integer i,j,a,b,c = 0;
 
 reg [IW-1:0] instruction;
 reg signed [DW-1:0] rs1_data, rd_data, expected_out;
@@ -40,17 +40,14 @@ task automatic testADD;
     for (i=0; i<2; i++) begin
         for (j=0; j<2; j++) begin
             instruction = {i[0], j[0], `R_ADD, 1'b0, `OP_R};
-
-            rs1_data = 8'h00; rd_data = 8'h00; expected_out = 8'h00;
-            #1; checkOutput;
-            rs1_data = 8'hFF; rd_data = 8'h01; expected_out = 8'h00;
-            #1; checkOutput;
-            rs1_data = 8'h01; rd_data = 8'hFF; expected_out = 8'h00;
-            #1; checkOutput;
-            rs1_data = 8'hFF; rd_data = 8'hFF; expected_out = 8'hFE;
-            #1; checkOutput;
-            rs1_data = 8'h11; rd_data = 8'h22; expected_out = 8'h33;
-            #1; checkOutput;
+            for (a=0;a<2**DW;a++) begin
+                for (b=0;b<2**DW;b++) begin
+                   rs1_data = a[DW-1:0]; 
+                   rd_data = b[DW-1:0]; 
+                   expected_out = a + b;
+                   #1; checkOutput;
+                end
+            end
         end
     end
 endtask
@@ -60,17 +57,14 @@ task automatic testAND;
     for (i=0; i<2; i++) begin
         for (j=0; j<2; j++) begin
             instruction = {i[0], j[0], `R_AND, 1'b0, `OP_R};
-
-            rs1_data = 8'h00; rd_data = 8'h00; expected_out = 8'h00;
-            #1; checkOutput;
-            rs1_data = 8'hFF; rd_data = 8'h00; expected_out = 8'h00;
-            #1; checkOutput;
-            rs1_data = 8'h00; rd_data = 8'hFF; expected_out = 8'h00;
-            #1; checkOutput;
-            rs1_data = 8'hFF; rd_data = 8'hAA; expected_out = 8'hAA;
-            #1; checkOutput;
-            rs1_data = 8'hA8; rd_data = 8'h89; expected_out = 8'h88;
-            #1; checkOutput;
+            for (a=0;a<2**DW;a++) begin
+                for (b=0;b<2**DW;b++) begin
+                   rs1_data = a[DW-1:0]; 
+                   rd_data = b[DW-1:0]; 
+                   expected_out = a & b;
+                   #1; checkOutput;
+                end
+            end
         end
     end
 endtask
@@ -80,37 +74,31 @@ task automatic testOR;
     for (i=0; i<2; i++) begin
         for (j=0; j<2; j++) begin
             instruction = {i[0], j[0], `R_OR, 1'b0, `OP_R};
-
-            rs1_data = 8'h00; rd_data = 8'h00; expected_out = 8'h00;
-            #1; checkOutput;
-            rs1_data = 8'hFF; rd_data = 8'h00; expected_out = 8'hFF;
-            #1; checkOutput;
-            rs1_data = 8'h00; rd_data = 8'hFF; expected_out = 8'hFF;
-            #1; checkOutput;
-            rs1_data = 8'hFF; rd_data = 8'hAA; expected_out = 8'hFF;
-            #1; checkOutput;
-            rs1_data = 8'hA8; rd_data = 8'h89; expected_out = 8'hA9;
-            #1; checkOutput;
+            for (a=0;a<2**DW;a++) begin
+                for (b=0;b<2**DW;b++) begin
+                   rs1_data = a[DW-1:0]; 
+                   rd_data = b[DW-1:0]; 
+                   expected_out = a | b;
+                   #1; checkOutput;
+                end
+            end
         end
     end
 endtask
 
 
 task automatic testXOR;
-    for (i=0; i<1; i++) begin
-        for (j=0; j<1; j++) begin
+    for (i=0; i<2; i++) begin
+        for (j=0; j<2; j++) begin
             instruction = {i[0], j[0], `R_XOR, 1'b0, `OP_R};
-
-            rs1_data = 8'h00; rd_data = 8'h00; expected_out = 8'h00;
-            #1; checkOutput;
-            rs1_data = 8'hFF; rd_data = 8'hFF; expected_out = 8'h00;
-            #1; checkOutput;
-            rs1_data = 8'hFF; rd_data = 8'h00; expected_out = 8'hFF;
-            #1; checkOutput;
-            rs1_data = 8'hFF; rd_data = 8'hAA; expected_out = 8'h55;
-            #1; checkOutput;
-            rs1_data = 8'hA8; rd_data = 8'h89; expected_out = 8'h21;
-            #1; checkOutput;
+            for (a=0;a<2**DW;a++) begin
+                for (b=0;b<2**DW;b++) begin
+                   rs1_data = a[DW-1:0]; 
+                   rd_data = b[DW-1:0]; 
+                   expected_out = a ^ b;
+                   #1; checkOutput;
+                end
+            end
         end
     end
 endtask
@@ -126,6 +114,7 @@ task automatic checkOutput;
             out, out,
             expected_out, expected_out
         );
+        $finish;
     end
 endtask
 
