@@ -7,32 +7,47 @@
 
 
 module Core #(
-    parameter filename = "programs/simple.txt"
+    parameter filename = "programs/simple.txt",
+    parameter IW = 8,
+    parameter IMW = 4,
+    parameter DW = 8,
+    parameter RFW = 2
 )(
     input wire clk,
     input wire start
 );
 
 wire rf_we, branch_taken;
-wire [4-1:0] pc_in, pc_out;
-wire [8-1:0] instruction, wr_data, rs1_data, rd_data;
-wire [2-1:0] rs1_address, rd_address;
+wire [IMW-1:0] pc_in, pc_out;
+wire [IW-1:0] instruction;
+wire [DW-1:0] wr_data, rs1_data, rd_data;
+wire [RFW-1:0] rs1_address, rd_address;
 
-Pc pc(
+Pc # (
+    .IW(IW),
+    .IMW(IMW)
+) pc(
     .clk(clk),
     .start(start),
     .branch_taken(branch_taken),
-    .pc_in(wr_data[4-1:0]),
+    .pc_in(wr_data[IMW-1:0]),
     .pc_out(pc_out)
 );
 
-Im #(.filename(filename) 
+Im #(
+    .filename(filename),
+    .IW(IW),
+    .IMW(IMW)
 ) im(
     .address(pc_out),
     .instruction(instruction)
 );
 
-Id id(
+Id #(
+    .IW(IW),
+    .IMW(IMW),
+    .RFW(RFW)
+) id(
     .instruction(instruction),
     .rf_we(rf_we),
     .branch_taken(branch_taken),
@@ -40,7 +55,12 @@ Id id(
     .rd_address(rd_address)
 );
 
-Rf rf(
+Rf #(
+    .IW(IW),
+    .IMW(IMW),
+    .DW(DW),
+    .RFW(RFW)
+) rf(
     .clk(clk),
     .we(rf_we),
     .rr1_address(rs1_address),
@@ -51,7 +71,11 @@ Rf rf(
     .rr2_data(rd_data)
 );
 
-Alu alu(
+Alu #(
+    .IW(IW),
+    .IMW(IMW),
+    .DW(DW)
+) alu(
     .instruction(instruction),
     .rs1_data(rs1_data),
     .rd_data(rd_data),

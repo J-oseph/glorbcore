@@ -1,8 +1,8 @@
 
 module Rf #(
     parameter IW = 8,
-    parameter DW = 8,
     parameter IMW = 4, 
+    parameter DW = 8,
     parameter RFW = 2 
 )(
     input wire              clk,

@@ -2,9 +2,9 @@
 `include "core/definitions.v"
 
 module Alu #(
-    parameter DW = 8,
+    parameter IW = 8,
     parameter IMW = 4,
-    parameter IW = 8
+    parameter DW = 8
 )(
     input wire [IW-1:0] instruction,
     input wire [DW-1:0] rs1_data,
