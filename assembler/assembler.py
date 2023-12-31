@@ -49,6 +49,7 @@ def main():
     commands = []
     with open(input_file, 'r') as f: lines = f.readlines()
     lines = [line.strip() for line in lines]
+    lines = [line for line in lines if len(line) > 0]
     for line in lines:
         keywords = line.split(' ')
         keywords = [word.upper().replace(',', '') for word in keywords]
