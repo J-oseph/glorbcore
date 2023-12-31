@@ -28,7 +28,6 @@ class Register(enum.Enum):
 
 
 def main():
-    #''' 
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-i", "--input_file",
@@ -44,8 +43,11 @@ def main():
     )
     args = parser.parse_args()
     input_file = args.input_file
+    output_file = args.output_file
     assert (os.path.exists(input_file))
-    #'''
+    if os.path.exists(output_file):
+        assert (not os.path.isdir(output_file)), 'Output file is a directory.'
+
     commands = []
     with open(input_file, 'r') as f: lines = f.readlines()
     lines = [line.strip() for line in lines]
@@ -83,6 +85,8 @@ def main():
         else:
             assert(False), 'something went wrong!'
 
+    with open(output_file, 'w') as f:
+        f.write('\n'.join(commands))
     print(commands)
 
 if __name__ == '__main__':
