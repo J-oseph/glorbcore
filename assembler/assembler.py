@@ -61,7 +61,7 @@ def main():
             rs1 = Register[keywords[2]]
             rs2 = Register[keywords[3]]
 
-            commands.append(f"{RFunct[funct].value:04b}{rs2.value:02b}{rs1.value:02b}{rd.value:02b}{Opcode['R'].value:02b}")
+            commands.append(f"{RFunct[funct].value:04b}_{rs2.value:02b}_{rs1.value:02b}_{rd.value:02b}_{Opcode['R'].value:02b}")
         elif any(member.name == funct for member in IFunct):
             # I type
             assert len(keywords) == 4
@@ -70,16 +70,19 @@ def main():
             imm = int(keywords[3])
             assert -2**(6-1) <= imm <= (2**(6-1)) - 1
 
-            commands.append(f"{imm:06b}{rs1.value:02b}{rd.value:02b}{Opcode['I'].value:02b}")
+            commands.append(f"{imm:06b}_{rs1.value:02b}_{rd.value:02b}_{Opcode['I'].value:02b}")
+        elif any(member.name == funct for member in BFunct):
+            # B type
+            assert len(keywords) == 3 
+            rs1 = Register[keywords[1]]
+            imm = int(keywords[2])
+            assert imm <= (2**(6)) - 1
 
+            commands.append(f"{imm:06b}_{rs1.value:02b}_{BFunct[funct].value:02b}_{Opcode['B'].value:02b}")
         else:
             assert(False), 'something went wrong!'
 
-        for com in commands:
-            assert len(com) == 12
-        print(commands)
-
-
+    print(commands)
 
 if __name__ == '__main__':
     main()
