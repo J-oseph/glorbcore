@@ -8,9 +8,9 @@
 
 module Core #(
     parameter filename = "programs/simple.txt",
-    parameter IW = 8,
+    parameter IW = 12,
     parameter IMW = 4,
-    parameter DW = 8,
+    parameter DW = 12,
     parameter RFW = 2
 )(
     input wire clk,
@@ -20,8 +20,8 @@ module Core #(
 wire rf_we, branch_taken;
 wire [IMW-1:0] pc_in, pc_out;
 wire [IW-1:0] instruction;
-wire [DW-1:0] wr_data, rs1_data, rd_data;
-wire [RFW-1:0] rs1_address, rd_address;
+wire [DW-1:0] wr_data, rs1_data, rs2_data;
+wire [RFW-1:0] rs1_address, rs2_address, rd_address;
 
 Pc # (
     .IW(IW),
@@ -52,6 +52,7 @@ Id #(
     .rf_we(rf_we),
     .branch_taken(branch_taken),
     .rs1_address(rs1_address),
+    .rs2_address(rs2_address),
     .rd_address(rd_address)
 );
 
@@ -64,11 +65,11 @@ Rf #(
     .clk(clk),
     .we(rf_we),
     .rr1_address(rs1_address),
-    .rr2_address(rd_address),
+    .rr2_address(rs2_address),
     .wr_address(rd_address),
     .wr_data(wr_data),
     .rr1_data(rs1_data),
-    .rr2_data(rd_data)
+    .rr2_data(rs2_data)
 );
 
 Alu #(
@@ -78,7 +79,7 @@ Alu #(
 ) alu(
     .instruction(instruction),
     .rs1_data(rs1_data),
-    .rd_data(rd_data),
+    .rs2_data(rs2_data),
     .pc(pc_out),
     .out(wr_data)
 );

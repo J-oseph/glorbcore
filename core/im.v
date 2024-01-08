@@ -1,7 +1,7 @@
 
 module Im #(
     parameter filename = "programs/simple.txt",
-    parameter IW = 8,
+    parameter IW = 12,
     parameter IMW = 4
 )(
     input wire [IMW-1:0] address,

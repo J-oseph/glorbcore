@@ -5,4 +5,4 @@ add x3, x1, x2
 addi x1, x2, 0
 addi x2, x3, 0
 
-beq x0, 4
+beq x0, 3

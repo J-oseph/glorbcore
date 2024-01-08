@@ -1,8 +1,8 @@
 
 module Rf #(
-    parameter IW = 8,
+    parameter IW = 12,
     parameter IMW = 4, 
-    parameter DW = 8,
+    parameter DW = 12,
     parameter RFW = 2 
 )(
     input wire              clk,
@@ -37,11 +37,13 @@ initial begin
     end
     // zero register is always zero
     reg_file[{RFW{1'b0}}] <= {DW{1'b0}};
-    // FIXME: initialize registers to something. remove at some point
-    reg_file[1] <= 1;
-    reg_file[2] <= 1;
-    reg_file[3] <= 1;
 end
+
+// FIXME: for debugging:
+wire [DW-1:0] register_0 = reg_file[0];
+wire [DW-1:0] register_1 = reg_file[1];
+wire [DW-1:0] register_2 = reg_file[2];
+wire [DW-1:0] register_3 = reg_file[3];
 
 
 endmodule

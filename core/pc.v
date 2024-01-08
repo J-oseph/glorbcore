@@ -1,6 +1,6 @@
 
 module Pc #(
-    parameter IW = 8,
+    parameter IW = 12,
     parameter IMW = 4 
 )(
     input wire clk,
